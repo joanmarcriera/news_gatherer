@@ -2,7 +2,7 @@
 from selenium import webdriver
 #import pdb; pdb.set_trace()
 keyWords=['Catalonia','Puigdemont']
-
+file_output='../joanmarcriera.github.io/index.md'
 
 def run_browser(headless=True,site='http://hvper.com'):
     options = webdriver.ChromeOptions()
@@ -13,15 +13,18 @@ def run_browser(headless=True,site='http://hvper.com'):
     driver.get(site)
     return driver
 
-def act_on_link(link):
+def act_on_link(link,file=file_output):
+    f=open(file_output,'a')
+    f.write("[%s](%s)" % link.text , link.get_attribute("href"))
+
     print ("["+link.text+"]("+link.get_attribute("href")+")")
-    print ()
 
 driver = run_browser()
 
 for word in keyWords:
     links = driver.find_elements_by_xpath("//a[@href]")
     linksTrobats = [ link for link in links if any(word in link.text for word in keyWords)]
-    [act_on_link(link) for link in linksTrobats ]
+    linksNous = [ link for link in linksTrobats  if (link.text in open(file_output).read()) ]
+    for link in linksNous: act_on_link(link)
 
 #driver.quit()
