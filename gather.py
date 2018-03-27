@@ -21,7 +21,7 @@ driver = run_browser()
 
 for word in keyWords:
     links = driver.find_elements_by_xpath("//a[@href]")
-    [ act_on_link(link) for link in links if any(word in link.text for word in keyWords)]
-
+    linksTrobats = [ link for link in links if any(word in link.text for word in keyWords)]
+    [act_on_link(link) for link in linksTrobats ]
 
 #driver.quit()
