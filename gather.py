@@ -29,7 +29,7 @@ parser = argparse.ArgumentParser(description="performs a variety of operations o
 parser.add_argument('-V', '--version', action="version", version="%(prog)s 0.17.2")
 parser.add_argument("-s", dest='site',default='http://hvper.com', help="Site to gather links from.")
 parser.add_argument("-f", dest='file',default='../joanmarcriera.github.io/index.md', help="File where to add the links.")
-parser.add_argument("-w", dest='words',default='Catalonia,Puidemont,Catalan',help="Words to search for, comma separed")
+parser.add_argument("-w", dest='words',default='Catalonia,Puigdemont,Catalan,Ponsati,Ponsatí',help="Words to search for, comma separed")
 group = parser.add_argument_group('group')
 group.add_argument("-v", "--verbose", action="store_true")
 group.add_argument("-q", "--quiet", action="store_true")
