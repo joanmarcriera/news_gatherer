@@ -4,6 +4,7 @@ import argparse
 import logging
 import logging.handlers
 import os
+import inspect
 
 #import pdb; pdb.set_trace()
 
@@ -36,15 +37,14 @@ group.add_argument("-d", "--debug", action="store_true")
 
 def autolog(message):
     "Automatically log the current function details."
-    import inspect, logging
     # Get the previous frame in the stack, otherwise it would
     # be this function!!!
     func = inspect.currentframe().f_back.f_code
     # Dump the message + the name of this function to the log.
     logging.debug("%s: %s in %s:%i" % (
-        message, 
-        func.co_name, 
-        func.co_filename, 
+        message,
+        func.co_name,
+        func.co_filename,
         func.co_firstlineno
     ))
 
@@ -72,10 +72,11 @@ def run_browser(args):
     driver.get(args.site)
     return driver
 
-def act_on_link(args):
+def act_on_link(args,link):
+    logger.info("Inside act on link")
     autolog("inside act on link")
-    f=open(file_output,'a')
-    f.write("[%s](%s)" % link.text , link.get_attribute("href"))
+    f=open(args.file,'a')
+    f.write("[{0}]({1})\n\n".format(link.text , link.get_attribute("href")))
     print ("["+link.text+"]("+link.get_attribute("href")+")")
 
 
@@ -84,7 +85,6 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     if args.debug: import pdb; pdb.set_trace()
-    file_output=args.file
     keyWords=args.words.split(",")
     site=args.site
 
@@ -100,8 +100,8 @@ if __name__ == '__main__':
         logger.info("Inside for loop with word : {}".format(word))
         linksTrobats = [ link for link in links if any(word in link.text for word in keyWords)]
         logger.info("Inside for loop with linksTrobats : {}".format(linksTrobats))
-        linksNous = [ link for link in linksTrobats  if (link.text in open(file_output).read()) ]
+        linksNous = [ link for link in linksTrobats  if (link.text not in open(args.file).read()) ]
         logger.info("Inside for loop with linksNous: {}".format(linksNous))
-        for link in linksNous: act_on_link(link)
+        for link in linksNous: act_on_link(args,link)
 
     driver.quit()
