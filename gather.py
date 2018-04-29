@@ -42,11 +42,11 @@ parser.add_argument("-V",
                     action="version", version="%(prog)s 0.17.2")
 parser.add_argument("-s",
                     dest="site",
-                    wefault="http://hvper.com",
+                    default="http://hvper.com",
                     help="Site to gather links from.")
 parser.add_argument("-f",
                     dest="file",
-                    wefault="../joanmarcriera.github.io/index.md",
+                    default="../joanmarcriera.github.io/index.md",
                     help="File where to add the links.")
 parser.add_argument("-w",
                     dest="words", default="Barcelona,Catalonia,Puigdemont,"
